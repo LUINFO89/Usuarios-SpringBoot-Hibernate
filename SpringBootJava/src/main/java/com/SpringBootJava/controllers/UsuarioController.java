@@ -1,8 +1,11 @@
 package com.SpringBootJava.controllers;
 
+import com.SpringBootJava.dao.UsuarioDao;
 import com.SpringBootJava.models.Usuario;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -11,7 +14,10 @@ import java.util.List;
 @RestController
 public class UsuarioController {
 
-    @RequestMapping(value = "usuario/{id}")
+    @Autowired
+    private UsuarioDao usuarioDao;
+
+    @RequestMapping(value = "api/usuarios/{id}" , method = RequestMethod.GET)
     public Usuario getUsuario( @PathVariable Long id){
         Usuario usuario = new Usuario();
 
@@ -25,42 +31,11 @@ public class UsuarioController {
 
     //crear lista de usuarios para verlos por fetch
 
-    @RequestMapping(value = "usuarios")
+    @RequestMapping(value = "api/usuarios")
     public List<Usuario> getUsuario(){
-        List<Usuario> usuarios  = new ArrayList<>();
 
-        Usuario usuario = new Usuario();
+        return usuarioDao.getUsuarios();
 
-        usuario.setId(123L);
-        usuario.setNombre("Luis");
-        usuario.setApellido("Soto");
-        usuario.setEmail("luis@gmail.com");
-        usuario.setTelefono("898989");
-
-
-        Usuario usuario2 = new Usuario();
-
-        usuario2.setId(456L);
-        usuario2.setNombre("Victoria");
-        usuario2.setApellido("Posada");
-        usuario2.setEmail("victoria@gmail.com");
-        usuario2.setTelefono("232111");
-
-        Usuario usuario3 = new Usuario();
-
-        usuario3.setId(789L);
-        usuario3.setNombre("Juan");
-        usuario3.setApellido("Cortes");
-        usuario3.setEmail("juan@gmail.com");
-        usuario3.setTelefono("222222");
-
-
-        usuarios.add(usuario);
-        usuarios.add(usuario2);
-        usuarios.add(usuario3);
-
-
-        return usuarios;
     }
 
     //editar
@@ -75,15 +50,9 @@ public class UsuarioController {
         return usuario;
     }
     //eliminar
-    @RequestMapping(value = "usuario34")
-    public Usuario eliminar(){
-        Usuario usuario = new Usuario();
-
-        usuario.setNombre("Luis");
-        usuario.setApellido("Soto");
-        usuario.setEmail("luis@gmail.com");
-        usuario.setTelefono("898989");
-        return usuario;
+    @RequestMapping(value = "api/usuarios/{id}" , method = RequestMethod.DELETE)
+    public void eliminar(@PathVariable Long id){
+        usuarioDao.eliminar(id);
     }
     // buscar
     @RequestMapping(value = "usuario56")
