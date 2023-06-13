@@ -3,10 +3,7 @@ package com.SpringBootJava.controllers;
 import com.SpringBootJava.dao.UsuarioDao;
 import com.SpringBootJava.models.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +28,17 @@ public class UsuarioController {
 
     //crear lista de usuarios para verlos por fetch
 
-    @RequestMapping(value = "api/usuarios")
+    @RequestMapping(value = "api/usuarios", method = RequestMethod.GET)
     public List<Usuario> getUsuario(){
 
         return usuarioDao.getUsuarios();
+
+    }
+    @RequestMapping(value = "api/usuarios", method = RequestMethod.POST)
+    public void registrarUsuario(@RequestBody Usuario usuario){
+
+
+        usuarioDao.registrar(usuario);
 
     }
 
